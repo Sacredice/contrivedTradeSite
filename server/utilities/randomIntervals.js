@@ -177,7 +177,6 @@ const randomNewPrice = async (material) => {
         : matObj.currentPrice + priceChange;
 
     if (newPrice < matObj.limits.tempMinLimit || newPrice > matObj.limits.tempMaxLimit) {
-        console.log("Limit reached")
         switch (material) {
             case "gold":
                 const staticGoldLimit = newPrice < matObj.limits.tempMinLimit ? GOLD_PRICE_LIMIT.min : GOLD_PRICE_LIMIT.max;
