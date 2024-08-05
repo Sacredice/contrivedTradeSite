@@ -8,15 +8,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { usePrice } from '../context/PriceContext';
 import { useColorMode } from "../context/ColorModeContext";
-import Chart from '../components/Chart';
-import usePricesHistory from '../hooks/usePriceHistory';
 import LoadingSpinner from '../components/LoadingSpinner';
 import styles from "../ComponentsStyles";
 
 
 function Home() {
   const { pricesData, isPriceDataError } = usePrice();
-  const { historyData, error } = usePricesHistory("gold");
   const { checked } = useColorMode();
 
   const lightMode = checked ? "dark2" : "light1"
@@ -73,14 +70,6 @@ function Home() {
             {!pricesData && !isPriceDataError && <LoadingSpinner />}
             {pricesData && !isPriceDataError && priceContent}
             {isPriceDataError && <h2>{isPriceDataError.message}</h2>}
-          </section>
-          <section style={{ width: "75%" }}>
-          <div style={{ margin: "8px", padding: "4px", border: "0px solid whitesmoke", width: "100%", borderRadius: "4px", boxShadow: "0px 1px 1px grey"}}>
-            
-            {!historyData && <LoadingSpinner />}
-            {error && <p>{error.message}</p>}
-            {historyData && !error && <Chart history={historyData.history} material={"Gold"} lightMode={lightMode} />}
-          </div>
           </section>
         </div>
       </div>

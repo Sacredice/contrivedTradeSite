@@ -101,56 +101,59 @@ function Profile() {
 
 
   return (
-    <article>
-      <div style={{ position: "relative", marginTop: "30px", marginLeft: "4px", marginRight: "4px" }}>
+    <article style={{ display: "flex", alignItems: "center", flexDirection: "column"}}>
+      <div style={{ minWidth: "320px", width: "70%" }}>
+
+        <div style={{ position: "relative", marginTop: "30px", marginLeft: "4px", marginRight: "4px" }}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: "310px" }} size="small" aria-label="a dense table">
+              <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: "1.5rem", fontWeight: "500" }}>Profile</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                {userRows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.value}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        <div style={{ position: "relative", marginTop: "15px", marginLeft: "4px", marginRight: "4px" }}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: "310px" }} size="small" aria-label="a dense table">
-            <TableHead>
+            <Table sx={{ minWidth: 310 }} size="small" aria-label="a dense table">
+              <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontSize: "1.5rem", fontWeight: "500" }}>Profile</TableCell>
+                  <TableCell sx={{ fontSize: "1.5rem", fontWeight: "500" }}>Investments</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
-            </TableHead>
-            <TableBody>
-              {userRows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.value}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <div style={{ position: "relative", marginTop: "15px", marginLeft: "4px", marginRight: "4px" }}>
-      <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 310 }} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontSize: "1.5rem", fontWeight: "500" }}>Investments</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {investmentsRows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.value}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {investmentsRows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.value}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     </article>
   )
