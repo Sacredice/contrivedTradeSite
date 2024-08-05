@@ -213,7 +213,7 @@ const randomNewPrice = async (material) => {
             
         }
     } else {
-        console.log("no limit breached");
+        // console.log("no limit breached");
         // when no limit reached reduce balancer stack by 1
         const incrementBalancer = matObj.balancer < 0 ? 1 : matObj.balancer > 0 ? -1 : 0;
         await updateNewPrice(material, newPrice, null, null, null, incrementBalancer);
