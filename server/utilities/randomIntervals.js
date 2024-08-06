@@ -38,6 +38,7 @@ function keepServerUp() {
 
     setInterval(() => {
         const up = true;
+        keepServerUp();
     }, 48000)
 }
 
