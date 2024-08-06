@@ -37,9 +37,9 @@ function randomIntervals(material) {
 function keepServerUp() {
 
     setInterval(() => {
-        const up = true;
+
         keepServerUp();
-    }, 48000)
+    }, 14.5 * 60 * 1000)
 }
 
 async function setNewMaterialDoc() {
