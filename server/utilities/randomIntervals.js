@@ -34,6 +34,13 @@ function randomIntervals(material) {
     }, randomNumber(MAX_TIME_LIMIT, MIN_TIME_LIMIT) * 1000);
 }
 
+function keepServerUp() {
+
+    setInterval(() => {
+        const up = true;
+    }, 48000)
+}
+
 async function setNewMaterialDoc() {
     // add new or set material/materials to the data base
     try {
@@ -242,4 +249,4 @@ async function getPriceForMatch() {
 }
 
 
-module.exports = {randomIntervals, randomNewPrice, setNewMaterialDoc, getPriceForMatch };
+module.exports = {randomIntervals, randomNewPrice, setNewMaterialDoc, getPriceForMatch, keepServerUp };
