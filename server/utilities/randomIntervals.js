@@ -43,7 +43,6 @@ function keepServerUp() {
         } catch (err) {
             console.log(err.message);
         }
-        keepServerUp();
     }, 14.5 * 60 * 1000)
 }
 
