@@ -36,8 +36,8 @@ function randomIntervals(material) {
 
 function keepServerUp() {
 
-    setInterval(() => {
-
+    setInterval(async () => {
+        // const response = await fetch() 
         keepServerUp();
     }, 14.5 * 60 * 1000)
 }
