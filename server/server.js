@@ -13,7 +13,7 @@ const  { randomIntervals, setNewMaterialDoc, keepServerUp } = require("./utiliti
 const app = express();
 const PORT = process.env.PORT || 3500;
 
-// setNewMaterialDoc();
+
 randomIntervals("gold");
 randomIntervals("uranium");
 randomIntervals("ripCoin");
