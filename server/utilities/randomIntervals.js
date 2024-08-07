@@ -37,8 +37,11 @@ function randomIntervals(material) {
 function keepServerUp() {
 
     setInterval(async () => {
-        const response = await fetch(process.env.API_URL);
-        console.log("Pinged");
+        try {
+            const response = await fetch(process.env.API_URL);
+        } catch (err) {
+            console.log("Pinged")
+        }
         keepServerUp();
     }, 14.5 * 60 * 1000)
 }
