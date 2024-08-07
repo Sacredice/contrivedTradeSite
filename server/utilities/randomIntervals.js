@@ -39,8 +39,9 @@ function keepServerUp() {
     setInterval(async () => {
         try {
             const response = await fetch(process.env.API_URL);
-        } catch (err) {
             console.log("Pinged")
+        } catch (err) {
+            console.log("Ping error occured")
         }
         keepServerUp();
     }, 14.5 * 60 * 1000)

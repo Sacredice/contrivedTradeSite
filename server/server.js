@@ -47,6 +47,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.use("/ping", require("./routes/api/ping"));
 app.use("/register", require("./routes/api/register"));
 app.use("/refresh", require("./routes/api/refresh"));
 app.use("/logout", require("./routes/api/logout"));
