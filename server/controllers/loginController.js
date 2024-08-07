@@ -38,7 +38,7 @@ const handleLogin = async (req, res) => {
         // const updatedUser = await User.findByIdAndUpdate(foundUser._id, foundUser);
         await foundUser.save();
     
-        res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "Lax", secure: true , maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "None", secure: true , maxAge: 24 * 60 * 60 * 1000 });
         res.json({ accessToken, creditBalance: foundUser.creditBalance });
     } else {
         res.sendStatus(401);
