@@ -44,7 +44,7 @@ function keepServerUp() {
             console.log(err.message);
         }
         keepServerUp();
-    }, 0.5 * 60 * 1000)
+    }, 14.5 * 60 * 1000)
 }
 
 async function setNewMaterialDoc() {
