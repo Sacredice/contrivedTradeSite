@@ -7,7 +7,7 @@ const getUserProfile = async (req,res) => {
     if(!req?.params?.user) return res.status(400).json({ message: "User parameter is required"});
 
     const userData = await Account.findOne({ username: req.params.user }, { marketHistory: 0 }).exec();
-    if(!userData) res.status(400).json({ message: `Username ${req.params.user} not found.` });
+    if(!userData) return res.status(400).json({ message: `Username ${req.params.user} not found.` });
 
     const profile = {
         username: userData?.username,
@@ -15,7 +15,7 @@ const getUserProfile = async (req,res) => {
         creditBalance: userData?.creditBalance,
         investments: userData?.investments,
     }
-    res.json(profile);
+    res.status(200).json(profile);
 }
 
 const patchUserProfile = async (req, res) => {
