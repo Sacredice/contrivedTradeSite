@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../../controllers/userController");
+const verifyJWT = require("../../middleware/verifyJWT")
 
 
 router
     .route("/:user")
-    .get(userController.getUserProfile)
-    .patch(userController.patchUserProfile)
+    .get(verifyJWT, userController.getUserProfile)
+    .patch(verifyJWT, userController.patchUserProfile)
 
 router
-    .get("/:user/markethistory", userController.getMarketHistoryPage )
+    .route("/:user/markethistory")
+    .get( verifyJWT, userController.getMarketHistoryPage )
 
 module.exports = router;

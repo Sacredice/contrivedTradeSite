@@ -53,7 +53,7 @@ app.use("/refresh", require("./routes/api/refresh"));
 app.use("/logout", require("./routes/api/logout"));
 app.use("/login", require("./routes/api/login"));
 
-app.use(verifyJWT);
+// app.use(verifyJWT); 
 app.use("/", require("./routes/api/user"));
 
 
