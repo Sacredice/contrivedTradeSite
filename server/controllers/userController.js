@@ -33,6 +33,7 @@ const patchUserProfile = async (req, res) => {
     
     const price = pricesObj[investmentType];
     
+    // TODO: add price 0 or negative condition
     // Check if balance and owned investment qty cannot be less than 0
     if(creditBalance < 0 || investments[investmentType] < 0) {
         return res.status(400).json({ message: "Credit Balance or owned investment qty cannot be below 0" });
@@ -46,17 +47,16 @@ const patchUserProfile = async (req, res) => {
     // Add transaction type(Purchase/Sale), date, price, quantity 
     const transaction = {}
     transaction.name = handleInvTypeFormat(investmentType);
-    transaction.date = `${format(new Date(), 'dd.MM.yyyy-HH:mm:ss')}`
+    transaction.date = `${format(new Date(), 'dd.MM.yyyy-HH:mm:ss')}`;
+    transaction.price = price;
 
-    if (creditBalance < userData.creditBalance) {
+    if (userData.investments[investmentType] < investments[investmentType]) {
         transaction.type = "Purchase";
         transaction.qty = investments[investmentType] - userData.investments[investmentType];
     } else {
         transaction.type = "Sale"
         transaction.qty = userData.investments[investmentType] - investments[investmentType];
     }
-
-    transaction.price = price;
 
 
     try {
