@@ -36,6 +36,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const [checked, setChecked] = useState(false);
   const [errSignUp, setErrSignUp] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const { register, formState: { errors }, handleSubmit } = useForm();
@@ -52,6 +53,7 @@ export default function SignUp() {
       remember: d.remember,
     };
     try {
+      setIsLoading(true);
       const response = await axios.post("/register", formData);
       console.log(response.data);
       navigate("/login");
@@ -59,6 +61,8 @@ export default function SignUp() {
       console.log(`Error ${err.message}`);
       setErrSignUp(err);
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
     
   };
@@ -146,14 +150,17 @@ export default function SignUp() {
               control={<Checkbox {...register("remember")} name='remember' checked={checked} onChange={(e) => setChecked(!checked)} value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
+              {isLoading 
+              ? <LoadingButton loading variant='contained' fullWidth sx={{ mt: 3, mb: 2}}>Sign In</LoadingButton>
+              : <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign Up
+                </Button>
+              }
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

@@ -17,6 +17,7 @@ import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import { useForm } from "react-hook-form";
 import axios from '../api/axios';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 function Copyright(props) {
@@ -37,6 +38,7 @@ function Copyright(props) {
 export default function SignUp() {
   const { isLoggedIn, setIsLoggedIn, userAuthData, setUserAuthData, persist, setPersist } = useUser();
   const { theme } = useColorMode();
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formState, setFormState] = useState("");
   const location = useLocation();
@@ -59,6 +61,7 @@ export default function SignUp() {
     // setPersist(formData.remember);
 
     try {
+      setIsLoading(true);
       const response = await axios.post("/login", formData, {
         headers: { "Content-Type": 'application/json'},
         withCredentials: true
@@ -71,6 +74,8 @@ export default function SignUp() {
     } catch(err) {
       console.log(`Error ${err.message}`);
       setError(err);
+    } finally {
+      setIsLoading(false);
     }
     
   };
@@ -139,14 +144,18 @@ export default function SignUp() {
                 control={<Checkbox {...register("remember")} name='remember' checked={persist} onChange={(e) => setPersist(!persist)} value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+              {isLoading 
+              ? <LoadingButton loading variant='contained' fullWidth sx={{ mt: 3, mb: 2}}>Sign In</LoadingButton>
+              : <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign In
+                </Button>
+              }
+              
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
