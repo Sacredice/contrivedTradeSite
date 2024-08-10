@@ -1,0 +1,26 @@
+.home {
+    font-size: 12px;
+}
+
+.homeHeader {
+    font-size: 1.3rem;
+}
+
+@media only screen and (min-width: 600px) {
+    .home {
+        font-size: 14px;
+    }
+    .homeHeader {
+        font-size: 1.65rem;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .home {
+        font-size: 16px;
+    }
+
+    .homeHeader {
+        font-size: 1.8rem;
+    }
+}
