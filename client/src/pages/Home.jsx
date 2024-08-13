@@ -13,7 +13,7 @@ function Home() {
 
 
   return (
-    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)", display: "flex", justifyContent: "center", alignItems: "start", minHeight: "calc(100vh - 68.5px - 48.7px)" }}>
+    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)", display: "flex", justifyContent: "center", alignItems: "start", minHeight: "calc(100vh - 68.5px - 48.7px - 16px)", marginTop: "16px" }}>
       <div style={{ display: "flex",flexDirection: "column", width: "75%", justifyContent: "center", alignItems: "center", margin: "0", color: checked ? "whitesmoke" : "black" }}>
         <h1 className="homeHeader" style={{ marginBottom: "16px"}}>Welcome to my MERN Stack Project</h1>
         <p className='home'>You need to login to start buying and selling the 6 type of investments. Prices of investments change by a random amount within a certain limit after a randomly determined period of time between 6 and 2.5 minutes. After signing up, every account will receive 250,000 credits, and there is no transaction fee.

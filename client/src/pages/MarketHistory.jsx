@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import { useSearchParams, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import useUserDataReactQuery from "../hooks/useUserDataReactQuery"
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 function MarketHistory() {
@@ -22,7 +23,7 @@ function MarketHistory() {
     const pageParams = searchParams.get("page");
 
     const {
-        isLoading,
+        isFetching,
         isError,
         error,
         data: historyData,
@@ -34,11 +35,6 @@ function MarketHistory() {
         cacheTime: 10 * 60 * 1000,
         keepPreviousData: true
       });
-
-
-    function createData(name, date, transactionType, qty, price) {
-        return { name, date, transactionType, qty, price };
-      }
       
 
     const historyRows = historyData?.pageList;
@@ -51,6 +47,7 @@ function MarketHistory() {
 
   return (
     <div style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
+      {!historyRows && <LoadingSpinner />}
       {historyRows && <div>
         <Container sx={{ display: { xs: "flex", sm: "none", md: "none" }, px: "2px", minHeight: "412px" }}>
           <TableContainer component={Paper} sx={{ marginTop: "16px", marginBottom: "6px", color: "primary" }}>
