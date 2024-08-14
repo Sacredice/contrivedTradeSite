@@ -37,27 +37,31 @@ function Copyright(props) {
 
 export default function SignUp() {
   const { isLoggedIn, setIsLoggedIn, userAuthData, setUserAuthData, persist, setPersist } = useUser();
-  const { theme } = useColorMode();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [formState, setFormState] = useState("");
+  const [remember, setRemember] = useState(persist);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
   const { register, formState: { errors }, handleSubmit } = useForm();
 
-  useEffect(() => {
-    localStorage.setItem("persist", persist)
-  })
+  //changing persist with checkbox rerender form and other inputs reset to empty string
+  // instead 
+
+  // useEffect(() => {
+  //   localStorage.setItem("persist", persist)
+  // }, [persist])
 
   const onSubmit = async (d) => {
+    localStorage.setItem("persist", !!d.remember);
     // const data = new FormData(event.currentTarget);
     const formData = {
       user: d.userName,
       pwd: d.password,
       remember: d.remember,
     };
+    console.log(formData);
     // setPersist(formData.remember);
 
     try {
@@ -141,7 +145,7 @@ export default function SignUp() {
               />
               {error && <Alert variant="filled" severity={error.code === "ERR_NETWORK" ? "error" : "warning"}>{error.response?.data.msg || error.message}</Alert>}
               <FormControlLabel
-                control={<Checkbox {...register("remember")} name='remember' checked={persist} onChange={(e) => setPersist(!persist)} value="remember" color="primary" />}
+                control={<Checkbox {...register("remember")} name='remember' checked={remember} onChange={(e) => setRemember(!remember)} value="remember" color="primary" />}
                 label="Remember me"
               />
               {isLoading 
