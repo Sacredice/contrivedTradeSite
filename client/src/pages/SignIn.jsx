@@ -46,8 +46,8 @@ export default function SignUp() {
 
   const { register, formState: { errors }, handleSubmit } = useForm();
 
-  //changing persist with checkbox rerender form and other inputs reset to empty string
-  // instead 
+  // changing persist with checkbox rerender form and other inputs reset to empty string
+  // instead use useState for persist and onSubmit store useState value to localStorage.
 
   // useEffect(() => {
   //   localStorage.setItem("persist", persist)
