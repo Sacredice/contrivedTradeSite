@@ -84,31 +84,31 @@ function Details({ tradeGoods }) {
 
 
     return (
-        <div style={{ width: "99%", maxWidth: "1200px", margin: "10px auto", minHeight: "580px"}}>
-            <section>
-                <Box sx={{ display: { xs: "flex", sm: "none"}, flexDirection: "column", margin: "8px auto", padding: "4px"}}>
-                <Box>
-                    <h4 style={{ textAlign: "center", marginBottom: "8px",color: checked ? "whitesmoke" : "black" }}>Last {lastHours} {lastHours === "1" ? "Hour": "Hours"} of {tradeGoods} Prices</h4>
-                    <ToggleButtonGroup
-                        size='small'
-                        color="primary"
-                        value={lastHours}
-                        exclusive
-                        onChange={handleChange}
-                        aria-label="Platform"
-                        sx={{ maxHeight: "20px" }}
-                        >
-                        <ToggleButton value="24" disabled={lastHours === "24"}>24H</ToggleButton>
-                        <ToggleButton value="12" disabled={lastHours === "12"}>12H</ToggleButton>
-                        <ToggleButton value="6" disabled={lastHours === "6"}>6H</ToggleButton>
-                        <ToggleButton value="1" disabled={lastHours === "1"}>1H</ToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
+        <div style={{ width: "100%", maxWidth: "1200px", display: "flex", flexDirection: "column" }}>
+
+                <Box sx={{ display: { xs: "flex", sm: "none"}, flexDirection: "column", minHeight: "calc(100vh - 56px - 48px - 40px)" }}>
+                    <Box>
+                        <h4 style={{ textAlign: "center", margin: "6px 0", color: checked ? "whitesmoke" : "black" }}>Last {lastHours} {lastHours === "1" ? "Hour": "Hours"} of {tradeGoods} Prices</h4>
+                        <ToggleButtonGroup
+                            size='small'
+                            color="primary"
+                            value={lastHours}
+                            exclusive
+                            onChange={handleChange}
+                            aria-label="Platform"
+                            sx={{ maxHeight: "20px",paddingLeft: "5px" }}
+                            >
+                            <ToggleButton value="24" disabled={lastHours === "24"}>24H</ToggleButton>
+                            <ToggleButton value="12" disabled={lastHours === "12"}>12H</ToggleButton>
+                            <ToggleButton value="6" disabled={lastHours === "6"}>6H</ToggleButton>
+                            <ToggleButton value="1" disabled={lastHours === "1"}>1H</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>
                     {!historyData && <LoadingSpinner />}
                     {historyError && <p>{historyError.message}</p>}
                     {historyData && !historyError && filteredHistory && <Chart history={filteredHistory} material={tradeGoods} lightMode={lightMode} />}
                     {!isLoading && historyData ? (
-                    <AppBar position="fixed" color="primary" sx={{ display: { xs: "flex", sm: "none" }, top: 'auto', bottom: 0 }}>
+                    <AppBar position="sticky" color="primary" sx={{ display: { xs: "flex", sm: "none" },top: "auto", bottom: 0, marginTop: "auto" }}>
                         <Box color="primary" sx={{ fontSize: "1.2rem", textAlign: "center", borderBottom: "1px solid whitesmoke" }}>{tradeGoods}</Box>
                         <Toolbar sx={{ justifyContent: "space-around"}}>
                             <Button variant="contained" color='secondary'  disabled={data?.creditBalance < price} onClick={(e) => handleOpen(e, tradeGoods)}>Buy</Button>
@@ -155,7 +155,7 @@ function Details({ tradeGoods }) {
             {isLoading && !isError && <LoadingSpinner />}
             {!isLoading && !isError && <TransactionConfirmModal />}
             {!isLoading && isError && <p>{error.message}</p>}
-            </section>
+
         </div>
     )
 }

@@ -18,7 +18,7 @@ const useRefreshToken = () => {
             });
             return response.data.accessToken;
         } catch (err) {
-            console.error(err);
+            console.error("refresh hook error:\n" + err);
             setIsLoggedIn(false)
             console.log("refresh token error. isLoggedIn: ", isLoggedIn);
         }

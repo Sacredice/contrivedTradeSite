@@ -77,7 +77,7 @@ function Market() {
   ];
 
   let priceContent = (
-  <Container sx={{ marginTop: "16px", px: "2px", minHeight: "440px" }}>
+  <Container sx={{ marginTop: "16px", px: "2px" }}>
     <TableContainer component={Paper} sx={{ display: { xs: "flex", sm: "none", md: "none" }}}>
       <Table sx={{ minWidth: 315 }} aria-label="simple table">
         <TableHead>
@@ -191,14 +191,14 @@ function Market() {
   )
   
   return (
-    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
-        <section style={{ position: "relative", flexGrow: "1", margin: "10px 0" }}>
+    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)", minHeight: "calc(100vh - 56px - 48px - 40px)", display: "flex", flexDirection: "column" }}>
+        <section style={{ position: "relative", marginBottom: "auto" }}>
           {!pricesData && !isPriceDataError && !data && <LoadingSpinner />}
           {pricesData && !isPriceDataError && data && priceContent}
           {isPriceDataError && <h2>{isPriceDataError.message}</h2>}
         </section>
         {investmentType && pricesData && data && (
-          <AppBar position="fixed" color="primary" sx={{ display: { xs: "flex", sm: "none" }, top: 'auto', bottom: 0 }}>
+          <AppBar position="sticky" color="primary" sx={{ display: { xs: "flex", sm: "none" }, top: 'auto', bottom: 0 }}>
             <Box color="primary" sx={{ fontSize: "1.2rem", textAlign: "center", borderBottom: "1px solid whitesmoke" }}>{investmentType}</Box>
               <Toolbar sx={{ justifyContent: "space-around"}}>
                 <Button variant="contained" color='secondary'  disabled={data?.creditBalance < pricesData[handleCamelCase(investmentType)]} onClick={(e) => handleOpen(e, investmentType)}>Buy</Button>
