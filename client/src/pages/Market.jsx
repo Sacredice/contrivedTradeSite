@@ -77,8 +77,9 @@ function Market() {
   ];
 
   let priceContent = (
-  <Container sx={{ marginTop: "16px", px: "2px" }}>
-    <TableContainer component={Paper} sx={{ display: { xs: "flex", sm: "none", md: "none" }}}>
+  <Container sx={{ marginTop: "20px", px: "2px" }}>
+    <Box sx={{ display: { xs: "flex", sm: "none", md: "none" }, flexDirection: "column", minHeight: "calc(100vh - 56px - 48px - 40px - 20px)" }}>
+    <TableContainer component={Paper} sx={{ marginBottom: "auto"}}>
       <Table sx={{ minWidth: 315 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -93,7 +94,7 @@ function Market() {
               key={mat.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row" sx={{ padding: "8px" }}>
+              <TableCell component="th" scope="row" sx={{ padding: "8px 0" }}>
                 <Button variant="text" onClick={() => setInvestmentType(mat.name)}>{mat.name}</Button>
               </TableCell>
               <TableCell align="right" sx={{ padding: "8px" }}>{mat.price}</TableCell>
@@ -105,7 +106,16 @@ function Market() {
         </TableBody>
       </Table>
     </TableContainer>
-
+    {investmentType && pricesData && data && (
+            <AppBar position="sticky" color="primary" sx={{ display: { xs: "flex", sm: "none" }, top: 'auto', bottom: 0 }}>
+              <Box color="primary" sx={{ fontSize: "1.2rem", textAlign: "center", borderBottom: "1px solid whitesmoke" }}>{investmentType}</Box>
+                <Toolbar sx={{ justifyContent: "space-around"}}>
+                  <Button variant="contained" color='secondary'  disabled={data?.creditBalance < pricesData[handleCamelCase(investmentType)]} onClick={(e) => handleOpen(e, investmentType)}>Buy</Button>
+                  <Button variant="contained" color='secondary' disabled={data?.investments?.[handleCamelCase(investmentType)] === 0} onClick={(e) => handleOpen(e, investmentType)}>Sell</Button>
+                  <Button variant="contained" color='secondary' onClick={() => navigate(`/${investmentType.toLowerCase()}`)}>Details</Button>
+                </Toolbar>
+            </AppBar>)}
+    </Box>
 
 
     <TableContainer component={Paper} sx={{ display: { xs: "none", sm: "flex", md: "none"}, margin: "20px 0" }}>
@@ -191,21 +201,13 @@ function Market() {
   )
   
   return (
-    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)", minHeight: "calc(100vh - 56px - 48px - 40px)", display: "flex", flexDirection: "column" }}>
-        <section style={{ position: "relative", marginBottom: "auto" }}>
+    <div style={{ backgroundColor: "rgba(255, 255, 255, 0)", display: "flex", flexDirection: "column" }}>
+        <section style={{ position: "relative", marginBottom: "auto", flexGrow: 1 }}>
           {!pricesData && !isPriceDataError && !data && <LoadingSpinner />}
           {pricesData && !isPriceDataError && data && priceContent}
           {isPriceDataError && <h2>{isPriceDataError.message}</h2>}
         </section>
-        {investmentType && pricesData && data && (
-          <AppBar position="sticky" color="primary" sx={{ display: { xs: "flex", sm: "none" }, top: 'auto', bottom: 0 }}>
-            <Box color="primary" sx={{ fontSize: "1.2rem", textAlign: "center", borderBottom: "1px solid whitesmoke" }}>{investmentType}</Box>
-              <Toolbar sx={{ justifyContent: "space-around"}}>
-                <Button variant="contained" color='secondary'  disabled={data?.creditBalance < pricesData[handleCamelCase(investmentType)]} onClick={(e) => handleOpen(e, investmentType)}>Buy</Button>
-                <Button variant="contained" color='secondary' disabled={data?.investments?.[handleCamelCase(investmentType)] === 0} onClick={(e) => handleOpen(e, investmentType)}>Sell</Button>
-                <Button variant="contained" color='secondary' onClick={() => navigate(`/${investmentType.toLowerCase()}`)}>Details</Button>
-              </Toolbar>
-          </AppBar>)}
+
         {isLoading && !isError && <LoadingSpinner />}
         {!isLoading && !isError && <TransactionConfirmModal />}
         {!isLoading && isError && <p>{error.message}</p>}

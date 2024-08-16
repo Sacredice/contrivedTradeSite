@@ -84,7 +84,7 @@ function Details({ tradeGoods }) {
 
 
     return (
-        <div style={{ width: "100%", maxWidth: "1200px", display: "flex", flexDirection: "column" }}>
+        <div style={{ width: "100%", maxWidth: "1200px", display: "flex", flexDirection: "column", margin: "0 auto" }}>
 
                 <Box sx={{ display: { xs: "flex", sm: "none"}, flexDirection: "column", minHeight: "calc(100vh - 56px - 48px - 40px)" }}>
                     <Box>

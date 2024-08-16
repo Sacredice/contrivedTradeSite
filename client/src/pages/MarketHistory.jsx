@@ -109,16 +109,16 @@ function MarketHistory() {
           </TableContainer>
         </Container>
 
-        <Container sx={{ display: { xs: "none", sm: "none", md: "flex"}, px: "2px", minHeight: "634px" }}>       
+        <Container sx={{ display: { xs: "none", sm: "none", md: "flex"}, px: "20px", minHeight: "634px" }}>       
           <TableContainer component={Paper} sx={{ margin: "20px 0"  }}>
             <Table sx={{ minWidth: 320 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                <TableCell sx={{ fontSize: "1.2rem", fontWeight: "400", px: "8px" }}>Name</TableCell>
-                  <TableCell align="right" sx={{ fontSize: "1.2rem", fontWeight: "400", px: "8px" }}>Date</TableCell>
-                  <TableCell align="right" sx={{ fontSize: "1.2rem", fontWeight: "400", px: "8px" }}>Transaction</TableCell>
-                  <TableCell align="right" sx={{ fontSize: "1.2rem", fontWeight: "400", px: "8px" }}>Quantity</TableCell>
-                  <TableCell align="right" sx={{ fontSize: "1.2rem", fontWeight: "400", px: "8px" }}>Price</TableCell>
+                <TableCell sx={{ fontSize: "1.2rem", fontWeight: "400" }}>Name</TableCell>
+                  <TableCell align="left" sx={{ fontSize: "1.2rem", fontWeight: "400" }}>Date</TableCell>
+                  <TableCell align="left" sx={{ fontSize: "1.2rem", fontWeight: "400" }}>Transaction</TableCell>
+                  <TableCell align="left" sx={{ fontSize: "1.2rem", fontWeight: "400" }}>Quantity</TableCell>
+                  <TableCell align="left" sx={{ fontSize: "1.2rem", fontWeight: "400" }}>Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -127,13 +127,13 @@ function MarketHistory() {
                     key={row.date}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row"  sx={{ px: "8px" }}>
+                    <TableCell component="th" scope="row"  sx={{ px: "16px" }}>
                       {row.name}
                     </TableCell>
-                    <TableCell align="right" sx={{ px: "8px" }}>{row.date}</TableCell>
-                    <TableCell align="right" sx={{ px: "8px" }}>{row.type}</TableCell>
-                    <TableCell align="right" sx={{ px: "8px" }}>{row.qty}</TableCell>
-                    <TableCell align="right" sx={{ px: "8px" }}>{row.price}</TableCell>
+                    <TableCell align="left" sx={{ px: "16px" }}>{row.date}</TableCell>
+                    <TableCell align="left" sx={{ px: "16px" }}>{row.type}</TableCell>
+                    <TableCell align="left" sx={{ px: "16px" }}>{row.qty}</TableCell>
+                    <TableCell align="left" sx={{ px: "16px" }}>{row.price}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
