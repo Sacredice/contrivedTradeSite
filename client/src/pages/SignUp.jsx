@@ -45,7 +45,6 @@ export default function SignUp() {
 
   const onSubmit = async (d) => {
     // const data = new FormData(event.currentTarget);
-    console.log(d);
     const formData = {
       user: d.userName,
       email: d.email,

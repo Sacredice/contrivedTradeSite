@@ -61,7 +61,7 @@ export default function SignUp() {
       pwd: d.password,
       remember: d.remember,
     };
-    console.log(formData);
+
     // setPersist(formData.remember);
 
     try {
