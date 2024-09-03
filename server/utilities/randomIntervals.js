@@ -50,14 +50,21 @@ function keepServerUp() {
     }, 14.5 * 60 * 1000)
 }
 
-
-const randomNewPrice = async (material) => {
-    // check if price reach any tempLimit true => set new temp limit
+const getMatData = async (material) => {
     try{
         const matObj = (await db.collection('prices').doc(material).get()).data();
+        return matObj;
     } catch (err) {
         console.error(err);       
     }
+}
+
+
+const randomNewPrice = async (material) => {
+    // check if price reach any tempLimit true => set new temp limit
+
+    const matObj = getMatData(material);
+
     if (!matObj) {
         console.log("Fetching matObj value from firebase failed!");
         return "fetch matObj failed";
