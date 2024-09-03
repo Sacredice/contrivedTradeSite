@@ -29,7 +29,7 @@ function randomNumber(max, min=0) {
 function randomIntervals(material) {
     setTimeout(() => {
         const success = randomNewPrice(material);
-        if (success) {
+        if (!success) {
             console.log("Ding!", new Date());
         } else {
             console.log(success);
