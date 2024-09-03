@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { usePrice } from '../context/PriceContext';
 import { useColorMode } from "../context/ColorModeContext";
-import LoadingSpinner from '../components/LoadingSpinner';
 import "./Home.css";
 
 
 function Home() {
-  const { pricesData, isPriceDataError } = usePrice();
   const { checked } = useColorMode();
 
   const lightMode = checked ? "dark2" : "light1"
@@ -21,6 +19,9 @@ function Home() {
         <br />
         For security concerns, you can use a fake email address and a simple password (not the one you use for other accounts). There is no email confirmation process, and don't worry; only your password hash is stored in the database.
         Or you can log in to the test account for testing using the <b>username: test</b>, <b>password: pass</b>.  
+        <br />
+        <br />
+        Login could take up to 50 seconds to spin up the server if it is spun down. It's free tier render service.
         </p>
       </div>
     </div>
