@@ -56,8 +56,10 @@ const randomNewPrice = async (material) => {
     try{
         const matObj = (await db.collection('prices').doc(material).get()).data();
     } catch (err) {
-        console.error(err);
-        console.log("Fetching matObj value from firebase failed!")
+        console.error(err);       
+    }
+    if (!matObj) {
+        console.log("Fetching matObj value from firebase failed!");
         return "fetch matObj failed";
     }
     
