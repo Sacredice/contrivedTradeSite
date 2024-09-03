@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'https://faketrading-api.onrender.com';
+const BASE_URL = 'https://' + import.meta.env.VITE_BASE_URL;
 // const BASE_URL = 'http://localhost:3500';
 
 export default axios.create({

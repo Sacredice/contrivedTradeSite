@@ -13,6 +13,7 @@ function Balance() {
     const { checked } = useColorMode()
 
     const {
+        isFetched,
         isLoading,
         isError,
         error,
@@ -30,13 +31,13 @@ function Balance() {
         <Box sx={{ display: { xs: "flex", sm: "none"}, justifyContent: "center", mx: 1, pt: 2 }}>
             <Box sx={{  display: "flex", border: "1px solid", borderColor: checked ? "whitesmoke" : "black", borderRadius: "16px", paddingRight: "6px", paddingLeft: "0"}}>
                 <TbCoinFilled style={{ fontSize: "1.7rem", color: "#ff9100", marginLeft: "1px", marginTop: "1px" }} />
-                <Typography sx={{ fontSize: "1.25rem", marginLeft: "6px" }}><span>Balance: </span>{data?.creditBalance}</Typography>
+                <Typography sx={{ fontSize: "1.25rem", marginLeft: "6px" }}><span>Balance: </span>{isFetched ? data?.creditBalance : "..."}</Typography>
             </Box>
         </Box>
         <Box sx={{ display: { xs: "none", sm: "flex"}, justifyContent: "end", mx: 2, pt: 2}}>
             <Box sx={{  display: "flex", border: "1px solid", borderColor: checked ? "whitesmoke" : "black", borderRadius: "16px", paddingRight: "8px", paddingLeft: "0"}}>
                 <TbCoinFilled style={{ fontSize: "1.7rem", color: "#ff9100", marginLeft: "1px", marginTop: "1px" }} />
-                <Typography sx={{ fontSize: "1.25rem", marginLeft: "6px" }}><span>Balance: </span>{data?.creditBalance}</Typography>
+                <Typography sx={{ fontSize: "1.25rem", marginLeft: "6px" }}><span>Balance: </span>{isFetched ? data?.creditBalance : "..."}</Typography>
             </Box>
         </Box>
     </div>
