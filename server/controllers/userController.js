@@ -29,7 +29,7 @@ const patchUserProfile = async (req, res) => {
 
     const investmentType = Object.keys(investments)[0];
     const pricesObj = await getPriceForMatch();
-    if(!Object.keys(pricesObj).includes(investmentType)) return res.status(400).json({ message: "Not expected request data!"});
+    if(!pricesObj || !Object.keys(pricesObj).includes(investmentType)) return res.status(400).json({ message: "Not expected request data!"});
     
     const price = pricesObj[investmentType];
     

@@ -28,8 +28,12 @@ function randomNumber(max, min=0) {
 
 function randomIntervals(material) {
     setTimeout(() => {
-        randomNewPrice(material);
-        console.log("Ding!", new Date());
+        const success = randomNewPrice(material);
+        if (success) {
+            console.log("Ding!", new Date());
+        } else {
+            console.log(success);
+        }
         randomIntervals(material);    
     }, randomNumber(MAX_TIME_LIMIT, MIN_TIME_LIMIT) * 1000);
 }
@@ -49,7 +53,14 @@ function keepServerUp() {
 
 const randomNewPrice = async (material) => {
     // check if price reach any tempLimit true => set new temp limit
-    const matObj = (await db.collection('prices').doc(material).get()).data();
+    try{
+        const matObj = (await db.collection('prices').doc(material).get()).data();
+    } catch (err) {
+        console.error(err);
+        console.log("Fetching matObj value from firebase failed!")
+        return "fetch matObj failed";
+    }
+    
     clearOldHistoryData(material, matObj);
     const increase = randomNumber(matObj.limits.maxAmount);
     // there is no price set before limit check. if price is already off the tempLimit
@@ -123,6 +134,7 @@ async function updateNewPrice(material, newPrice, staticLimit=null, priceChange=
         const data = {
             currentPrice: newPrice,
             history: FieldValue.arrayUnion({ timestamp: Date.now(), price: newPrice }),
+            // 'limits.tempMinLimit' key syntax is used for firestore nested field update, not gonna work in node or plain js!!!
             'limits.tempMinLimit' : staticLimit + randomNumber(newLimitMaxRoll),
             balancer: FieldValue.increment(2)
         };
@@ -195,9 +207,15 @@ const clearOldHistoryData = async (material, Obj) => {
 }
 
 async function getPriceForMatch() {
-    const doc = await db.collection("prices").doc("currentPrices").get();
-    const pricesObj = doc.data();
-    return pricesObj;
+    try {
+        const doc = await db.collection("prices").doc("currentPrices").get();
+        const pricesObj = doc.data();
+        return pricesObj;
+    } catch (err) {
+        console.error(err);
+        console.log("getPriceForMatch fetch failed.")
+    }
+
 }
 
 
