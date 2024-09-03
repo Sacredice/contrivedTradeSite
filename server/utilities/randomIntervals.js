@@ -66,7 +66,7 @@ const randomNewPrice = async (material) => {
         console.log("Fetching matObj value from firebase failed!");
         return "fetch matObj failed";
     }
-    console.log("Ding! " + material, new Date());
+    console.log("Ding! ", new Date());
     
     clearOldHistoryData(material, matObj);
     const increase = randomNumber(matObj.limits.maxAmount);
