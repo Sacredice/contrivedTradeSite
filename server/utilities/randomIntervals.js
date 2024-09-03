@@ -19,7 +19,7 @@ const TIBCOIN_PRICE_LIMIT = { max: 105, min: -10 };
 const DIAMOND_PRICE_LIMIT = { max: 11000, min: 1000 };
 const PLUTONIUM_PRICE_LIMIT = { max: 15000, min: 4000 };
 
-const DAYS_AGO = 1;     // keep how many days old price in history
+const DAYS_OLD = 1;     // keep how many days old price in history
 
 
 function randomNumber(max, min=0) {
@@ -28,12 +28,8 @@ function randomNumber(max, min=0) {
 
 function randomIntervals(material) {
     setTimeout(() => {
-        const success = randomNewPrice(material);
-        if (!success) {
-            console.log("Ding!", new Date());
-        } else {
-            console.log(success);
-        }
+        randomNewPrice(material);
+
         randomIntervals(material);    
     }, randomNumber(MAX_TIME_LIMIT, MIN_TIME_LIMIT) * 1000);
 }
@@ -55,7 +51,8 @@ const getMatData = async (material) => {
         const matObj = (await db.collection('prices').doc(material).get()).data();
         return matObj;
     } catch (err) {
-        console.error(err);       
+        console.error(err);
+        return null;     
     }
 }
 
@@ -63,12 +60,13 @@ const getMatData = async (material) => {
 const randomNewPrice = async (material) => {
     // check if price reach any tempLimit true => set new temp limit
 
-    const matObj = getMatData(material);
+    const matObj = await getMatData(material);
 
     if (!matObj) {
         console.log("Fetching matObj value from firebase failed!");
         return "fetch matObj failed";
     }
+    console.log("Ding! " + material, new Date());
     
     clearOldHistoryData(material, matObj);
     const increase = randomNumber(matObj.limits.maxAmount);
@@ -205,9 +203,9 @@ async function updateNewPrice(material, newPrice, staticLimit=null, priceChange=
 const clearOldHistoryData = async (material, Obj) => {
     // remove price history data older than 1 day.
     const now = new Date();
-    const tomorrowTimeStamp = now.setDate(now.getDate() - DAYS_AGO);
-    if (Obj?.history[0]?.timestamp && Obj?.history[0]?.timestamp < tomorrowTimeStamp) {
-        const filteredHistoryArray = Obj.history.filter(record => record.timestamp > tomorrowTimeStamp);
+    const oldestDataTimeStampLimit = now.setDate(now.getDate() - DAYS_OLD);
+    if (Obj?.history[0]?.timestamp && Obj?.history[0]?.timestamp < oldestDataTimeStampLimit) {
+        const filteredHistoryArray = Obj.history.filter(record => record.timestamp > oldestDataTimeStampLimit);
         const data = {
             history: filteredHistoryArray
         }
@@ -223,6 +221,7 @@ async function getPriceForMatch() {
     } catch (err) {
         console.error(err);
         console.log("getPriceForMatch fetch failed.")
+        return null;
     }
 
 }
