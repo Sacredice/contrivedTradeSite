@@ -1,13 +1,13 @@
-const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue, Filter, collection } = require('firebase-admin/firestore');
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const serviceAccount = JSON.parse(process.env.FIRESTORE_SERVICE_ACCOUNT);
 
 initializeApp({
     credential: cert(serviceAccount)
-  });
-  
+});
+
 const db = getFirestore();
-  
+
 // price changes between MIN_LIMIT and MAX_LIMIT in seconds!
 const MIN_TIME_LIMIT = 2.5 * 60;
 const MAX_TIME_LIMIT = 6 * 60;
@@ -22,7 +22,7 @@ const PLUTONIUM_PRICE_LIMIT = { max: 15000, min: 4000 };
 const DAYS_OLD = 1;     // keep how many days old price in history
 
 
-function randomNumber(max, min=0) {
+function randomNumber(max, min = 0) {
     return Math.floor((Math.random()) * (max - min + 1) + min);
 }
 
@@ -30,7 +30,7 @@ function randomIntervals(material) {
     setTimeout(() => {
         randomNewPrice(material);
 
-        randomIntervals(material);    
+        randomIntervals(material);
     }, randomNumber(MAX_TIME_LIMIT, MIN_TIME_LIMIT) * 1000);
 }
 
@@ -47,12 +47,12 @@ function keepServerUp() {
 }
 
 const getMatData = async (material) => {
-    try{
+    try {
         const matObj = (await db.collection('prices').doc(material).get()).data();
         return matObj;
     } catch (err) {
         console.error(err);
-        return null;     
+        return null;
     }
 }
 
@@ -67,7 +67,7 @@ const randomNewPrice = async (material) => {
         return "fetch matObj failed";
     }
     console.log("Ding! ", new Date());
-    
+
     clearOldHistoryData(material, matObj);
     const increase = randomNumber(matObj.limits.maxAmount);
     // there is no price set before limit check. if price is already off the tempLimit
@@ -82,8 +82,8 @@ const randomNewPrice = async (material) => {
     }
     // if the increase roll greater than half of the increase roll price increase, otherwise lesser than the half of the increase price decrease
     const priceChange = increase - Math.floor(matObj.limits.maxAmount / 2);
-    const newPrice = matObj.balancer !== 0 
-        ? matObj.currentPrice + priceChange + matObj.balancer * matObj.limits.maxAmount / 10 
+    const newPrice = matObj.balancer !== 0
+        ? matObj.currentPrice + priceChange + matObj.balancer * matObj.limits.maxAmount / 10
         : matObj.currentPrice + priceChange;
 
     if (newPrice < matObj.limits.tempMinLimit || newPrice > matObj.limits.tempMaxLimit) {
@@ -120,7 +120,7 @@ const randomNewPrice = async (material) => {
                 break;
             default:
                 console.log("No material match found")
-            
+
         }
     } else {
         // console.log("no limit breached");
@@ -128,11 +128,11 @@ const randomNewPrice = async (material) => {
         const incrementBalancer = matObj.balancer < 0 ? 1 : matObj.balancer > 0 ? -1 : 0;
         await updateNewPrice(material, newPrice, null, null, null, incrementBalancer);
     }
-    
+
 }
 
 
-async function updateNewPrice(material, newPrice, staticLimit=null, priceChange=null, newLimitMaxRoll=null,  balancer=0) {
+async function updateNewPrice(material, newPrice, staticLimit = null, priceChange = null, newLimitMaxRoll = null, balancer = 0) {
     // balancer is little addition to randomized price increase or decrease.
     // balancer is used for get higher chance to increase the price, when min limit reached, 
     // and lower the increase chance, when max limit is reached. 
@@ -142,26 +142,26 @@ async function updateNewPrice(material, newPrice, staticLimit=null, priceChange=
             currentPrice: newPrice,
             history: FieldValue.arrayUnion({ timestamp: Date.now(), price: newPrice }),
             // 'limits.tempMinLimit' key syntax is used for firestore nested field update, not gonna work in node or plain js!!!
-            'limits.tempMinLimit' : staticLimit + randomNumber(newLimitMaxRoll),
+            'limits.tempMinLimit': staticLimit + randomNumber(newLimitMaxRoll),
             balancer: FieldValue.increment(2)
         };
 
         try {
-            await db.collection('prices').doc(material).update(data);   
+            await db.collection('prices').doc(material).update(data);
         } catch (err) {
             console.error(err);
         }
-    // if price reach max limit set random new max limit, and subtract 2 stack balancer value for next random increase roll.
+        // if price reach max limit set random new max limit, and subtract 2 stack balancer value for next random increase roll.
     } else if (staticLimit !== null && priceChange > 0) {
         const data = {
             currentPrice: newPrice,
             history: FieldValue.arrayUnion({ timestamp: Date.now(), price: newPrice }),
-            'limits.tempMaxLimit' : staticLimit - randomNumber(newLimitMaxRoll),
+            'limits.tempMaxLimit': staticLimit - randomNumber(newLimitMaxRoll),
             balancer: FieldValue.increment(-2)
         };
 
         try {
-            await db.collection('prices').doc(material).update(data);      
+            await db.collection('prices').doc(material).update(data);
         } catch (err) {
             console.error(err);
         }
@@ -173,7 +173,7 @@ async function updateNewPrice(material, newPrice, staticLimit=null, priceChange=
         };
 
         try {
-            await db.collection('prices').doc(material).update(data);          
+            await db.collection('prices').doc(material).update(data);
         } catch (err) {
             console.error(err);
         }
@@ -232,43 +232,43 @@ async function setNewMaterialDoc() {
     try {
         await db.collection('prices').doc('gold').set(
             {
-                history: [{ timestamp: Date.now(), price: 1650 }], 
-                limits: { tempMaxLimit: 3400, tempMinLimit: 1600, maxAmount: 200}, 
+                history: [{ timestamp: Date.now(), price: 1650 }],
+                limits: { tempMaxLimit: 3400, tempMinLimit: 1600, maxAmount: 200 },
                 balancer: 0
             }
         );
         await db.collection('prices').doc('uranium').set(
             {
-                history: [{ timestamp: Date.now(), price: 100 }], 
-                limits: { tempMaxLimit: 155, tempMinLimit: 35, maxAmount: 60 }, 
+                history: [{ timestamp: Date.now(), price: 100 }],
+                limits: { tempMaxLimit: 155, tempMinLimit: 35, maxAmount: 60 },
                 balancer: 0
             }
         );
         await db.collection('prices').doc('ripCoin').set(
             {
-                history: [{ timestamp: Date.now(), price: 540 }], 
-                limits: { tempMaxLimit: 76000, tempMinLimit: 520, maxAmount: 8000 }, 
+                history: [{ timestamp: Date.now(), price: 540 }],
+                limits: { tempMaxLimit: 76000, tempMinLimit: 520, maxAmount: 8000 },
                 balancer: 0
             }
         );
         await db.collection('prices').doc('tibCoin').set(
             {
-                history: [{ timestamp: Date.now(), price: 93 }], 
-                limits: { tempMaxLimit: 100, tempMinLimit: 2, maxAmount: 10 }, 
+                history: [{ timestamp: Date.now(), price: 93 }],
+                limits: { tempMaxLimit: 100, tempMinLimit: 2, maxAmount: 10 },
                 balancer: 0
             }
         );
         await db.collection('prices').doc('diamond').set(
             {
-                history: [{ timestamp: Date.now(), price: 1650 }], 
-                limits: { tempMaxLimit: 10400, tempMinLimit: 1600, maxAmount: 800 }, 
+                history: [{ timestamp: Date.now(), price: 1650 }],
+                limits: { tempMaxLimit: 10400, tempMinLimit: 1600, maxAmount: 800 },
                 balancer: 0
             }
         );
         await db.collection('prices').doc('plutonium').set(
             {
-                history: [{ timestamp: Date.now(), price: 5031 }], 
-                limits: { tempMaxLimit: 14600, tempMinLimit: 4400, maxAmount: 1000 }, 
+                history: [{ timestamp: Date.now(), price: 5031 }],
+                limits: { tempMaxLimit: 14600, tempMinLimit: 4400, maxAmount: 1000 },
                 balancer: 0
             }
         );
@@ -285,8 +285,8 @@ async function setNewMaterialDoc() {
     } catch (err) {
         console.error(err);
     }
-    
+
 }
 
 
-module.exports = {randomIntervals, randomNewPrice, setNewMaterialDoc, getPriceForMatch, keepServerUp };
+module.exports = { randomIntervals, randomNewPrice, setNewMaterialDoc, getPriceForMatch, keepServerUp };
