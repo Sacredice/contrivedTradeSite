@@ -22,6 +22,9 @@ function Home() {
         <br />
         <br />
         Login could take up to 50 seconds to spin up the server if it is spun down. It's free tier render service.
+        <br />
+        <br />
+        Firebase is used to store current prices and price history for real-time data synchronization, so prices update automatically. 
         </p>
       </div>
     </div>
