@@ -10,7 +10,7 @@ function Footer() {
         <p>Contrived Trading App &copy; {(new Date()).getFullYear()}</p>
       </div>
       <div style={{ display: "flex", alignItems: "center", marginRight: "2rem" }}>
-        <a href="https://github.com/Sacredice/contrivedTradeSite" target='_blank'><img style={{ width: "1.5rem" }} src="/github-mark-white.png" alt="" /></a>
+        <a href="https://github.com/Sacredice/contrivedTradeSite" target='_blank'><img style={{ width: "1.5rem", display: "block" }} src="/github-mark-white.png" alt="" /></a>
       </div>
     </footer>
   )
