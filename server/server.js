@@ -9,7 +9,7 @@ const errorHandler = require("./middleware/errorHandler");
 const verifyJWT = require("./middleware/verifyJWT");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
-const  { randomIntervals, setNewMaterialDoc, keepServerUp } = require("./utilities/randomIntervals");
+const { randomIntervals, setNewMaterialDoc, keepServerUp } = require("./utilities/randomIntervals");
 const app = express();
 const PORT = process.env.PORT || 3500;
 
@@ -28,7 +28,7 @@ keepServerUp();
 connectDB();
 
 // logger middleware
-app.use(logger);
+// app.use(logger);
 
 // Cross Origin Resource Sharing
 // app.use(cors({ credentials: true, origin: true }));

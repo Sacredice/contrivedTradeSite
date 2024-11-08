@@ -29,7 +29,7 @@ function randomNumber(max, min = 0) {
 function randomIntervals(material) {
     setTimeout(() => {
         randomNewPrice(material);
-
+        // Recursive randomIntervals() function
         randomIntervals(material);
     }, randomNumber(MAX_TIME_LIMIT, MIN_TIME_LIMIT) * 1000);
 }
@@ -209,7 +209,12 @@ const clearOldHistoryData = async (material, Obj) => {
         const data = {
             history: filteredHistoryArray
         }
-        await db.collection('prices').doc(material).update(data);
+        try {
+            await db.collection('prices').doc(material).update(data);
+
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 }
 
