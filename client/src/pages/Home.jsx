@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { usePrice } from '../context/PriceContext';
 import { useColorMode } from "../context/ColorModeContext";
 import "./Home.css";
 

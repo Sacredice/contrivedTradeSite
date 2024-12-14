@@ -23,7 +23,7 @@ import { useColorMode } from '../context/ColorModeContext';
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const {isLoggedIn, setIsLoggedIn, userAuthData } = useUser();
+  const { isLoggedIn, setIsLoggedIn, userAuthData } = useUser();
   const { checked, setChecked } = useColorMode();
   const logout = useLogout();
   const navigate = useNavigate();
@@ -41,28 +41,37 @@ function Navbar() {
   }, [isLoggedIn])
 
   const pages = [
-    {name: 'Market', onClick: () => {
-      handleCloseNavMenu();
-      navigate("/market");
-    }},
-    {name: 'Market History', onClick: () => {
-      handleCloseNavMenu();
-      navigate(`/${userAuthData.username}/markethistory?page=1`);
-    }},
+    {
+      name: 'Market', onClick: () => {
+        handleCloseNavMenu();
+        navigate("/market");
+      }
+    },
+    {
+      name: 'Market History', onClick: () => {
+        handleCloseNavMenu();
+        navigate(`/${userAuthData?.username}/markethistory?page=1`);
+      }
+    },
   ];
 
   const settings = [
-    {name: 'Profile', onClick: () => {
-      handleCloseUserMenu();
-      navigate(`/${userAuthData.username}`);
-    }}, 
-    {name: checked ? "Light Mode" : "Dark Mode", onClick: () =>  setChecked(prev => !prev)},  
-    {name: 'Logout', onClick: async function () {
-      handleCloseUserMenu();
-      await logout();
-      setIsLoggedIn(false);
-      localStorage.setItem("persist", false);
-      navigate("/")} }
+    {
+      name: 'Profile', onClick: () => {
+        handleCloseUserMenu();
+        navigate(`/${userAuthData.username}`);
+      }
+    },
+    { name: checked ? "Light Mode" : "Dark Mode", onClick: () => setChecked(prev => !prev) },
+    {
+      name: 'Logout', onClick: async function () {
+        handleCloseUserMenu();
+        await logout();
+        setIsLoggedIn(false);
+        localStorage.setItem("persist", false);
+        navigate("/")
+      }
+    }
   ];
 
   const handleOpenNavMenu = (event) => {
@@ -175,14 +184,14 @@ function Navbar() {
               ))}
             </Box>
             <Box>
-              {!isLoggedIn && 
-              <Box sx={{ flexGrow: 0 }}>
-              <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => navigate("/login")}>Login</Button>
-              </Box>}
-
-              {isLoggedIn && 
+              {!isLoggedIn &&
                 <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Open settings">  
+                  <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => navigate("/login")}>Login</Button>
+                </Box>}
+
+              {isLoggedIn &&
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                     </IconButton>
