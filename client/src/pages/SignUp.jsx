@@ -15,6 +15,7 @@ import Alert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import axios from '../api/axios';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function Copyright(props) {
   return (
@@ -56,14 +57,14 @@ export default function SignUp() {
       const response = await axios.post("/register", formData);
       console.log(response.data);
       navigate("/login");
-    } catch(err) {
+    } catch (err) {
       console.log(`Error ${err.message}`);
       setErrSignUp(err);
       console.log(err);
     } finally {
       setIsLoading(false);
     }
-    
+
   };
 
   return (
@@ -149,17 +150,17 @@ export default function SignUp() {
               control={<Checkbox {...register("remember")} name='remember' checked={checked} onChange={(e) => setChecked(!checked)} value="remember" color="primary" />}
               label="Remember me"
             />
-              {isLoading 
-              ? <LoadingButton loading variant='contained' fullWidth sx={{ mt: 3, mb: 2}}>Sign In</LoadingButton>
+            {isLoading
+              ? <LoadingButton loading variant='contained' fullWidth sx={{ mt: 3, mb: 2 }}>Sign In</LoadingButton>
               : <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  >
-                    Sign Up
-                </Button>
-              }
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+            }
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
