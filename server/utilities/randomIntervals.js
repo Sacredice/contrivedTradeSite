@@ -43,7 +43,7 @@ function keepServerUp() {
         } catch (err) {
             console.log(err.message);
         }
-    }, 14.5 * 60 * 1000)
+    }, 14.80 * 60 * 1000)
 }
 
 const getMatData = async (material) => {
@@ -233,7 +233,7 @@ async function getPriceForMatch() {
 
 
 async function setNewMaterialDoc() {
-    // add new or set material/materials to the data base
+    // To add new or set material/materials to the data base set price min/max limits and add the function to the randomIntervals function
     try {
         await db.collection('prices').doc('gold').set(
             {
