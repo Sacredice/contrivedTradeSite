@@ -20,7 +20,7 @@ function Home() {
           Or you can log in to the test account for testing using the <b>username: test</b>, <b>password: pass</b>.
           <br />
           <br />
-          Login could take up to 50 seconds to spin up the server if it is spun down. It's free tier render service.
+          <b>Login could take up to 50 seconds to spin up the server if it is spun down. It's free tier render service.</b>
           <br />
           <br />
           Firebase is used to store current prices and price history for real-time data synchronization, so prices update automatically.
